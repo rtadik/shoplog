@@ -1,0 +1,72 @@
+{
+  "name": "shoplog",
+  "version": "0.1.0",
+  "description": "Local-first shop client database — Access replacement",
+  "main": "out/main/main.js",
+  "author": "Kenny's Son",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "package:win": "npm run build && electron-builder --win --x64",
+    "package:mac": "npm run build && electron-builder --mac",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "smoke:import": "node --import tsx scripts/smokeImport.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "mdb-reader": "^3.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.7.4",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "autoprefixer": "^10.4.20",
+    "electron": "^32.1.2",
+    "electron-builder": "^25.0.5",
+    "electron-rebuild": "^3.2.9",
+    "electron-vite": "^2.3.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
+  },
+  "build": {
+    "appId": "com.shoplog.app",
+    "productName": "Shoplog",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Shoplog-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Shoplog"
+    },
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**"
+    ]
+  }
+}
